@@ -93,6 +93,7 @@ class LocationRegisterPageWidget extends StatelessWidget {
                                 ),
                                 GestureDetector(
                                   onTap: () {
+                                    user.addUpgradesSalary();
                                     user.isInit = true;
                                     Timer.periodic(const Duration(seconds: 10),
                                         (timer) {

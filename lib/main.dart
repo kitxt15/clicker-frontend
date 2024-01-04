@@ -9,19 +9,22 @@ import 'package:kvantfront/auth_pages/registration_pages/location_page.dart';
 import 'package:kvantfront/auth_pages/registration_pages/password_page.dart';
 import 'package:kvantfront/auth_pages/start_page.dart';
 import 'package:kvantfront/main_page.dart';
-import 'package:kvantfront/main_pages/shop_page.dart';
 import 'package:kvantfront/user.dart';
 
 import 'auth_pages/registration_pages/nickname_page.dart';
+import 'main_pages/profile_page.dart';
 
 User user = User('', '');
+
 void main() {
+  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+
   if (user.isInit) {
     Timer.periodic(const Duration(seconds: 10), (timer) {
       user.sendUser();
     });
   }
-  runApp(const MyApp());
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
 }
 

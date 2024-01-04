@@ -1,44 +1,50 @@
 // ignore_for_file: no_logic_in_create_state
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:kvantfront/main_pages/shop_page.dart';
 import 'package:kvantfront/widgets/text.dart';
 import 'package:kvantfront/widgets/white_container.dart';
+
+import '../main.dart';
 
 class ShopElementWidget extends StatefulWidget {
   const ShopElementWidget(
       {super.key,
       required this.name,
-      required this.amount,
+      // required this.amount,
       required this.mining,
       required this.multiplier,
       required this.price});
 
   final String name;
   final int mining;
-  final int amount;
+  // final int amount;
   final double multiplier;
   final int price;
 
   @override
   State<ShopElementWidget> createState() =>
-      _ShopElementWidgetState(name, mining, amount, multiplier, price);
+      _ShopElementWidgetState(name, mining, multiplier, price);
 }
 
 class _ShopElementWidgetState extends State<ShopElementWidget> {
+  _ShopElementWidgetState(this.name, this.mining, this.multiplier, this.price);
   String name;
   int mining;
-  int amount;
   double multiplier;
   int price;
 
   _buyUpgrade() {
     setState(() {
-      amount++;
+      if (user.balance >=
+          (price * pow(multiplier, user.getAmount(name))).toInt()) {
+        user.balance -= (price * pow(multiplier, user.getAmount(name))).toInt();
+        user.buyUpgrade(name);
+        sup_controller.add("send");
+      }
+      return;
     });
   }
-
-  _ShopElementWidgetState(
-      this.name, this.mining, this.amount, this.multiplier, this.price);
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +68,7 @@ class _ShopElementWidgetState extends State<ShopElementWidget> {
                         StyledText(
                             text: name,
                             opacity: 1,
-                            fontSize: 20,
+                            fontSize: 18,
                             color: Colors.black),
                       ],
                     ),
@@ -78,9 +84,9 @@ class _ShopElementWidgetState extends State<ShopElementWidget> {
                                 fontSize: 18,
                                 color: Colors.black),
                             StyledText(
-                                text: amount.toString(),
+                                text: user.getAmount(name).toString(),
                                 opacity: 1,
-                                fontSize: 18,
+                                fontSize: 16,
                                 color: Colors.black),
                           ],
                         ),
@@ -94,7 +100,7 @@ class _ShopElementWidgetState extends State<ShopElementWidget> {
                             StyledText(
                                 text: "$miningКК/c",
                                 opacity: 1,
-                                fontSize: 18,
+                                fontSize: 16,
                                 color: Colors.black)
                           ],
                         )
@@ -126,7 +132,9 @@ class _ShopElementWidgetState extends State<ShopElementWidget> {
                       ),
                       child: Center(
                         child: Text(
-                          (price * pow(multiplier, amount)).toInt().toString(),
+                          (price * pow(multiplier, user.getAmount(name)))
+                              .toInt()
+                              .toString(),
                           textDirection: TextDirection.ltr,
                           textAlign: TextAlign.center,
                           style: const TextStyle(

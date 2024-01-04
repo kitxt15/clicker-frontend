@@ -1,11 +1,15 @@
 // ignore_for_file: avoid_print
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:kvantfront/main.dart';
 import 'package:kvantfront/main_pages/shop_page.dart';
 import 'package:kvantfront/widgets/icon_button.dart';
 import 'package:kvantfront/widgets/text.dart';
 import 'package:kvantfront/widgets/white_container.dart';
+
+import 'main_pages/profile_page.dart';
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
@@ -27,7 +31,17 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  void _incrementCounter() {
+  @override
+  void initState() {
+    super.initState();
+    Timer.periodic(const Duration(seconds: 1), (timer) {
+      setState(() {
+        user.balance;
+      });
+    });
+  }
+
+  void incrementCounter() {
     setState(() {
       user.balance++;
     });
@@ -54,15 +68,23 @@ class _MainPageState extends State<MainPage> {
                     const IconBtnWidget(
                       icon: "top",
                     ),
-                    const IconBtnWidget(
-                      icon: "user",
-                    ),
                     GestureDetector(
                       onTap: () {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => const ProfilePage()));
+                      },
+                      child: const IconBtnWidget(
+                        icon: "user",
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const ShopPage()));
                       },
                       child: const IconBtnWidget(
                         icon: "shop",
@@ -100,7 +122,7 @@ class _MainPageState extends State<MainPage> {
                   ),
                 ),
                 GestureDetector(
-                  onTap: _incrementCounter,
+                  onTap: incrementCounter,
                   child: WhiteBoxWidget(
                     width: double.infinity,
                     height: MediaQuery.of(context).size.height / 2.48062016,
